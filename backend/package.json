@@ -10,8 +10,10 @@
   "author": "Geoffrey Collins",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mongoose": "^8.3.4"
+    "mongodb": "3.6",
+    "mongoose": "^8.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
