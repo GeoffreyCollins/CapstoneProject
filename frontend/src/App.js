@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import './App.css';
 import Header from './components/Header';
 import DataInputForm from './components/DataInputForm';
-import Visualization from './components/Visualization';
-import Weather from './components/Weather';
+import Visualization from './components/Visualization'; 
+import GraphPlaceholder from './components/GraphPlaceholder'; // Placeholder for now
 import { AppProvider, AppContext } from './context/AppContext';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import theme from './theme';
@@ -19,8 +19,8 @@ function App() {
           <Header />
           <main>
             <DataInputForm />
-            <Visualization />
-            <Weather city={data.city} />
+            <GraphPlaceholder /> {/* Placeholder for the graph */}
+            {/* <Visualization /> Uncomment this when you have the actual visualization component ready */}
           </main>
         </div>
       </AppProvider>
