@@ -1,30 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { AppProvider } from './context/AppContext';
+import CityInputForm from './components/CityInputForm';
+import Visualization from './components/Visualization';
 import './App.css';
-import Header from './components/Header';
-import DataInputForm from './components/DataInputForm';
-import Visualization from './components/Visualization'; 
-import GraphPlaceholder from './components/GraphPlaceholder'; // Placeholder for now
-import { AppProvider, AppContext } from './context/AppContext';
-import { ThemeProvider, CssBaseline } from '@material-ui/core';
-import theme from './theme';
 
 function App() {
-  const { data } = useContext(AppContext);
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppProvider>
-        <div className="App">
-          <Header />
-          <main>
-            <DataInputForm />
-            <GraphPlaceholder /> {/* Placeholder for the graph */}
-            {/* <Visualization /> Uncomment this when you have the actual visualization component ready */}
-          </main>
-        </div>
-      </AppProvider>
-    </ThemeProvider>
+    <AppProvider>
+      <div className="App">
+        <h1>City Data</h1>
+        <CityInputForm />
+        <Visualization />
+      </div>
+    </AppProvider>
   );
 }
 

@@ -1,15 +1,26 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 
-const AppContext = createContext();
+const initialState = {
+  cities: [],
+};
 
-const AppProvider = ({ children }) => {
-  const [data, setData] = useState({ city: '', population: '' });
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_CITIES':
+      return { ...state, cities: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const AppContext = createContext();
+
+export const AppProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <AppContext.Provider value={{ data, setData }}>
+    <AppContext.Provider value={{ state, dispatch }}>
       {children}
     </AppContext.Provider>
   );
 };
-
-export { AppContext, AppProvider };
