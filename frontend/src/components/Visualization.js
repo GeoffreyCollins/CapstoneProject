@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Chart } from 'react-charts';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const Visualization = () => {
   const [data, setData] = useState([]);
@@ -13,25 +14,26 @@ const Visualization = () => {
     fetchData();
   }, []);
 
-  const chartData = React.useMemo(
-    () => [
+  const chartData = {
+    labels: data.map(city => city.name),
+    datasets: [
       {
-        label: 'Cities',
-        data: data.map((city) => [city.name, city.population]),
-      },
-    ],
-    [data]
-  );
+        label: 'Population',
+        data: data.map(city => city.population),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      }
+    ]
+  };
 
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' },
-    ],
-    []
-  );
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
 
-  return <Chart data={chartData} axes={axes} />;
+  return <Bar data={chartData} options={options} />;
 };
 
 export default Visualization;
