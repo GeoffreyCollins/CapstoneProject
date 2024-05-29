@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(morgan('dev')); // Add logging
 
 // MongoDB Connection
-const mongoURI = 'mongodb+srv://collinsgeo:NXXldb0S8haJLody@cabrontracker.mongodb.net/<CabronTracker>?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://collinsgeo:<NXXldb0S8haJLody>@cabrontracker.9es0sog.mongodb.net/';
 mongoose.connect(mongoURI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
