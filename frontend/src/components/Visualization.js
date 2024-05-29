@@ -8,8 +8,16 @@ const Visualization = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('/api/cities');
-      setData(result.data);
+      try {
+        const result = await axios.get('/api/cities', {
+          headers: {  
+            'Content-Type': 'application/json',
+          },
+        });
+        setData(result.data);
+      } catch (error) {
+        console.error('Error fetching data', error);
+      }
     };
     fetchData();
   }, []);
