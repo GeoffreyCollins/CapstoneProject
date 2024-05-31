@@ -11,6 +11,9 @@ const Visualization = () => {
     document.cookie.split(";").forEach((cookie) => {
       document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
     });
+
+    localStorage.clear();
+    sessionStorage.clear();
   
     const fetchData = async () => {
       try {
