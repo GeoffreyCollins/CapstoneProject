@@ -2,39 +2,39 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const CityInputForm = () => {
-  const [name, setName] = useState('');
+  const [cityName, setCityName] = useState('');
   const [population, setPopulation] = useState('');
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      await axios.post('/api/cities', { name, population });
-      // Clear the form
-      setName('');
-      setPopulation('');
-      setError('');
+      const response = await axios.post('http://localhost:3000/api/cities', {
+        name: cityName,
+        population: parseInt(population, 10)
+      });
+      console.log(response.data);
     } catch (error) {
-      setError('Failed to add city');
+      console.error('Error posting data', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <input 
         type="text"
+        value={cityName}
+        onChange={(e) => setCityName(e.target.value)}
         placeholder="City Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        required
       />
-      <input
+      <input 
         type="number"
-        placeholder="Population"
         value={population}
         onChange={(e) => setPopulation(e.target.value)}
+        placeholder="Population"
+        required
       />
       <button type="submit">Add City</button>
-      {error && <p>{error}</p>}
     </form>
   );
 };
