@@ -30,8 +30,13 @@ const citySchema = new mongoose.Schema({
 const City = mongoose.model('City', citySchema);
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get('/api/cities', (req, res) => {
+  const cities = [
+    { name: 'New York', population: 8175133 },
+    { name: 'Los Angeles', population: 3792621 },
+    // Add more cities as needed
+  ];
+  res.json(cities);
 });
 
 app.post('/api/cities', async (req, res) => {

@@ -7,13 +7,14 @@ const Visualization = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    // Clear cookies
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+  
     const fetchData = async () => {
       try {
-        const result = await axios.get('/api/cities', {
-          headers: {  
-            'Content-Type': 'application/json',
-          },
-        });
+        const result = await axios.get('/api/cities');
         setData(result.data);
       } catch (error) {
         console.error('Error fetching data', error);
