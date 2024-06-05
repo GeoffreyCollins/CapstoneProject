@@ -12,7 +12,7 @@ const App = () => {
   };
 
   const handleSearch = async () => {
-    const response = await axios.get(`http://localhost:5000/city/${city}`);
+    const response = await axios.get(`http://localhost:5001/city/${city}`);
     setLocation(response.data.location);
   };
 
