@@ -1,8 +1,7 @@
-import React, { useState, useCallback, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from 'axios';
-import debounce from 'lodash.debounce';
 import 'leaflet/dist/leaflet.css';
 
 const FAQ = lazy(() => import('./components/FAQ'));
@@ -10,20 +9,31 @@ const FAQ = lazy(() => import('./components/FAQ'));
 const App = () => {
   const [city, setCity] = useState('');
   const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null); // State to handle errors
 
   const handleInputChange = (e) => {
     setCity(e.target.value);
-    debouncedHandleSearch(e.target.value);
   };
 
-  const handleSearch = async (city) => {
+  const handleSearch = async () => {
     if (city) {
-      const response = await axios.get(`http://localhost:5001/city/${city}`);
-      setLocation(response.data.location);
+      try {
+        console.log(`Searching for city: ${city}`);
+        const response = await axios.get(`http://localhost:5001/city/${encodeURIComponent(city)}`);
+        setLocation(response.data.location);
+        setError(null); // Clear any previous errors
+        console.log(`Location found: ${JSON.stringify(response.data.location)}`);
+      } catch (error) {
+        console.error(`Error fetching location for city ${city}:`, error.message);
+        if (error.response && error.response.status === 404) {
+          setError('City not found. Please check the spelling and try again.');
+        } else {
+          setError('Error retrieving city data. Please try again.');
+        }
+        setLocation(null); // Clear previous location data
+      }
     }
   };
-
-  const debouncedHandleSearch = useCallback(debounce(handleSearch, 300), []);
 
   return (
     <Router>
@@ -41,8 +51,15 @@ const App = () => {
               <div>
                 <h1>Carbon Tracker</h1>
                 <input type="text" value={city} onChange={handleInputChange} placeholder="Enter city name" />
+                <button onClick={handleSearch}>Search</button>
+                {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
                 {location && (
-                  <MapContainer center={[location.lat, location.lon]} zoom={13} style={{ height: '400px', width: '100%' }}>
+                  <MapContainer
+                    key={`${location.lat}-${location.lon}`} // Unique key to force re-render
+                    center={[location.lat, location.lon]}
+                    zoom={13}
+                    style={{ height: '400px', width: '100%' }}
+                  >
                     <TileLayer
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
