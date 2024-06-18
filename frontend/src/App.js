@@ -5,17 +5,20 @@ import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import './App.css'; // Assuming you have an App.css for general styles
 
-const FAQ = lazy(() => import('./components/FAQ')); // Lazy load the FAQ component
+// Lazy load the FAQ component
+const FAQ = lazy(() => import('./components/FAQ'));
 
 const App = () => {
   const [city, setCity] = useState('');
   const [location, setLocation] = useState(null);
-  const [error, setError] = useState(null); // State to handle errors
+  const [error, setError] = useState(null);
 
+  // Handle input change
   const handleInputChange = (e) => {
     setCity(e.target.value);
   };
 
+  // Handle search functionality
   const handleSearch = async () => {
     if (city) {
       try {
@@ -51,7 +54,12 @@ const App = () => {
             <Route path="/" element={
               <div>
                 <h1>Carbon Tracker</h1>
-                <input type="text" value={city} onChange={handleInputChange} placeholder="Enter city name" />
+                <input
+                  type="text"
+                  value={city}
+                  onChange={handleInputChange}
+                  placeholder="Enter city name"
+                />
                 <button onClick={handleSearch}>Search</button>
                 {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
                 {location && (
